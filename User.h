@@ -14,27 +14,35 @@ class User {
         int age;
         float height;
         float weight;
-        bool is_metric;
+        bool is_imperial;
         LocationList* reservations;
+
+        std::string user_filename;
+        std::string reservations_filename;
 
     public:
         User();
-        void MakeReservation(const Location new_reservation);
+        void MakeReservation(Location& new_reservation);
         std::string to_string() const {return first_name + " " + last_name;}
         void PrintData() const;
         void PrintReservations() const;
+
         std::string getFirstName() const {return first_name;}
-        void setFirstName(std::string fn) {first_name = fn;}
         std::string getLastName() const {return last_name;}
-        void setLastName(std::string ln) {last_name = ln;}
         int getAge() const {return age;}
-        bool setAge(int a);
         std::string getHeightWithUnit() const;
-        bool setHeight(float h);
         std::string getWeightWithUnit() const;
+        bool IsImperial() const {return is_imperial;};
+
+        void setFirstName(std::string fn) {first_name = fn;}
+        void setLastName(std::string ln);
+        bool setAge(int a);
+        bool setHeight(float h);
         bool setWeight(float w);
-        bool IsMetric() const {return is_metric;};
-        void toggleIsMetric() {is_metric = !is_metric;}
+        void toggleIsImperial() {is_imperial = !is_imperial;}
+        
+        void Read(bool& is_imperial, std::string fname = "");
+        void Write(const bool is_imperial);
         //std::string getUnit();
 };
 

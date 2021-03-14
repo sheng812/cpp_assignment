@@ -39,7 +39,7 @@ void printTestingLocations(const LocationList& locations) {
     for (int i = 0; i < locations.GetCount(); i++)
     {
         index = "[" + to_string(i + 1) + "]";
-        cout << left << setw(4) << index << locations.GetLocation(i).to_string() << endl;
+        cout << left << setw(4) << index << locations.GetLocation(i)->to_string() << endl;
     }
     index = "[" + to_string(locations.GetCount() + 1) + "]";
     cout << left << setw(4) << index << "Return to main menu" << endl;
@@ -115,14 +115,16 @@ void printUserDataMenu(const User&  user) {
     cout << "Please enter a menu item:" << endl;
 }
 
-void printSettingsMenu(const bool is_metric) {
+void printSettingsMenu(const bool is_imperial) {
     cout << "Change your app settings:" << endl;
-    if (is_metric) {
+    if (!is_imperial) {
         cout << "[1] Switch units (metric)" << endl;
     } else {
         cout << "[1] Switch units (imperial)" << endl;
     }
-    cout << "[2] Return to main menu" << endl;
+    cout << "[2] Load Data" << endl;
+    cout << "[3] Save Data" << endl;
+    cout << "[4] Return to main menu" << endl;
     cout << "please enter a menu item" << endl;
 }
 
@@ -131,9 +133,9 @@ void printReservationLocations(const LocationList& locations){
     cout << "Testing Locations:" << endl;
     for (int i = 0; i < locations.GetCount(); i++)
     {
-        if (locations.GetLocation(i).IsReservable()) {
+        if (locations.GetLocation(i)->IsReservable()) {
             index = "[" + to_string(i) + "]";
-            cout << left << setw(4) << index << locations.GetLocation(i).to_string() << endl;
+            cout << left << setw(4) << index << locations.GetLocation(i)->to_string() << endl;
         }
     }
     cout << "Choose a location to reserve, or return to the menu:" << endl;

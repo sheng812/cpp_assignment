@@ -6,6 +6,8 @@ Wisc ID: HFU54
 #define LOCATIONLIST_H
 
 #include "Location.h"
+#include "CityLocation.h"
+#include "CampusLocation.h"
 
 class LocationList
 {
@@ -19,8 +21,10 @@ public:
     LocationList();
     ~LocationList();
     int GetCount() const { return size; }
-    Location GetLocation(int index) const { return *(list[index]); }
+    Location* GetLocation(int index) const { return (list[index]); }
     void AddLocation(const Location& new_loc);
+    void FromFile(std::string fname);
+    void ToFile(std::string fname);
 };
 
 #endif

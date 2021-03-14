@@ -39,25 +39,23 @@ int numberOfSelected(bool selected[], int count)
 int main()
 {
     // initialize
-    //string locations[] = {"Kohl Center, Gate C", "Dejope Hall, 1165", "21 N Park St, 1106",
-    //                      "Shell, 110", "Mechanical Engineering Building, 1184"};
-    //int locations_count = sizeof(locations)/sizeof(locations[0]);
-    //string addresses[] = {"601 W Dayton St", "640 Elm Dr", "21 N Park St", "1430 Monroe St", "1513 University Ave"};
-    //string hours[] = {"8:30am-4:30pm", "9:30am-5:30pm", "7:30am-3:30pm", "8:30am-4:30pm", "6:30am-2:30pm"};
     string symptoms[] = {"Fever", "Cough", "Shortness of breath", "Loss of taste or smell", "Fatigue", "Sore throat"};
-    Location *location1 = new Location("Kohl Center, Gate C", "601 W Dayton St", "8:30am-4:30pm", true);
-    Location *location2 = new Location("Dejope Hall, 1165", "640 Elm Dr", "9:30am-5:30pm", false);
-    Location *location3 = new Location("21 N Park St, 1106", "21 N Park St", "7:30am-3:30pm", false);
-    Location *location4 = new Location("Shell, 110", "1430 Monroe St", "8:30am-4:30pm", true);
-    Location *location5 = new Location("Mechanical Engineering Building, 1184", "1513 University Ave", "6:30am-2:30pm", false);
+    // Location *location1 = new Location("Kohl Center, Gate C", "601 W Dayton St", "8:30am-4:30pm", true);
+    // Location *location2 = new Location("Dejope Hall, 1165", "640 Elm Dr", "9:30am-5:30pm", false);
+    // Location *location3 = new Location("21 N Park St, 1106", "21 N Park St", "7:30am-3:30pm", false);
+    // Location *location4 = new Location("Shell, 110", "1430 Monroe St", "8:30am-4:30pm", true);
+    // Location *location5 = new Location("Mechanical Engineering Building, 1184", "1513 University Ave", "6:30am-2:30pm", false);
     LocationList *locations = new LocationList();
-    locations->AddLocation(*location1);
-    locations->AddLocation(*location2);
-    locations->AddLocation(*location3);
-    locations->AddLocation(*location4);
-    locations->AddLocation(*location5);
+    // locations->AddLocation(*location1);
+    // locations->AddLocation(*location2);
+    // locations->AddLocation(*location3);
+    // locations->AddLocation(*location4);
+    // locations->AddLocation(*location5);
 
+    bool dummy = true;
     User *user = new User();
+    user->Read(dummy);
+    locations->FromFile("locations.txt");
 
     const int symptoms_count = 6;
     bool selected[symptoms_count] = {0};
@@ -85,7 +83,7 @@ int main()
                 }
                 else if (input > 0 && input < (locations->GetCount() + 1))
                 {
-                    locations->GetLocation(input - 1).Print();
+                    locations->GetLocation(input - 1)->Print();
                     std::cout << "Press enter to return to menu." << std::endl;
                     cin.ignore(100, '\n');
                     cin.get();
@@ -116,7 +114,7 @@ int main()
                 if (input < 0 || input >= locations->GetCount()) {
                     cout << "invalid index" << std::endl;
                 } else {
-                    user->MakeReservation(locations->GetLocation(input));
+                    user->MakeReservation(*(locations->GetLocation(input)));
                 }
                 std::cout << "Press enter to return to menu." << std::endl;
                 cin.ignore(100, '\n');
@@ -250,14 +248,25 @@ int main()
             bool stop = false;
             do
             {
-                printSettingsMenu(user->IsMetric());
+                printSettingsMenu(user->IsImperial());
                 cin >> user_settings_input;
                 switch (user_settings_input)
                 {
                 case 1:
-                    user->toggleIsMetric();
+                    user->toggleIsImperial();
                     break;
                 case 2:
+                {   
+                    std::string last_name;
+                    cout << "Please enter your last name" << endl;
+                    cin >> last_name;
+                    user->Read(dummy, last_name + ".txt");
+                    break;
+                }
+                case 3:
+                    user->Write(true);
+                    break;
+                case 4:
                     stop = true;
                     break;
                 default:
@@ -277,4 +286,6 @@ int main()
             cin.ignore(100, '\n');
         }
     } while (!endProcess);
+
+    return 0;
 }

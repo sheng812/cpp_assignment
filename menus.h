@@ -14,7 +14,7 @@ void printAdviceMessage(int count);
 void printMainmenu();
 void printTestingLocations(const LocationList& locations);
 void printUserDataMenu(const User& user);
-void printSettingsMenu(const bool is_metric);
+void printSettingsMenu(const bool is_imperial);
 void printReservationLocations(const LocationList& locations);
 
 #endif
